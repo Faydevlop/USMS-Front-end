@@ -1,23 +1,18 @@
 import React from 'react'
-import { useSelector,useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
-import { logoutUser } from '../features/authSlice';
-import { useLocation } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { adminLogout } from '../features/adminSlice'
+
+function AdminHeader() {
+  const dispatch = useDispatch()
+  const location = useLocation();
+  const isProfilePage = location.pathname === '/admin/dashboard';
+
+  const handleLogout = () =>{
+    dispatch(adminLogout())
+  }
 
 
-function Header() {
-    const {user,error,loading} = useSelector((state)=>state.auth);
-    const dispatch = useDispatch()
-
-    const location = useLocation();
-    const isProfilePage = location.pathname === '/profile';
-
-    const handelLogin = ()=>{
-        dispatch(logoutUser())
-
-    }
-
-    
 
   return (
     <header id="navbar-sticky" className="navbar nav-light">
@@ -36,7 +31,7 @@ function Header() {
             alt="Opixo Logo"
           />
         </a>
-        {/* Moblie Menu Toggle Button (Offcanvas Button) */}
+        {/* Mobile Menu Toggle Button (Offcanvas Button) */}
         <div className="lg:hidden flex items-center ms-auto px-2.5">
           <button
             className="hs-collapse-toggle inline-flex items-center justify-center h-9 w-12 rounded-md border border-gray-300 bg-slate-300/30"
@@ -48,70 +43,53 @@ function Header() {
             <i className="uil uil-bars text-2xl" />
           </button>
         </div>
-        {/* Nevigation Menu */}
+        {/* Navigation Menu */}
         <div
           id="mobileMenu"
           className="hs-collapse overflow-hidden transition-all duration-300 lg:basis-auto basis-full grow hidden lg:flex items-center justify-center mx-auto mt-2 lg:mt-0"
         >
           <ul id="navbar-navlist" className="navbar-nav">
-            
-            
-            {/* Service Page Link */}
+            {/* You can uncomment and use these links as needed */}
             {/* <li className="nav-item">
               <a className="nav-link" href="#about">
                 About
               </a>
-            </li> */}
-            {/* Features Page Link */}
-            {/* <li className="nav-item">
+            </li>
+            <li className="nav-item">
               <a className="nav-link" href="#features">
                 Features
               </a>
-            </li> */}
-            {/* Price Page Link */}
-            {/* <li className="nav-item">
+            </li>
+            <li className="nav-item">
               <a className="nav-link" href="#testimonial">
                 Testimonials
               </a>
-            </li> */}
-            {/* Review Page Link */}
-            {/* <li className="nav-item">
+            </li>
+            <li className="nav-item">
               <a className="nav-link" href="#blog">
                 Blog
               </a>
             </li> */}
           </ul>
-          {/* Download Button */}
-          
         </div>
         {/* Download Button */}
         <div className="flex items-center space-x-2">
-  {user ? (
-    ""
-  ) : (
-    <Link to={'/login'}>
-      <a className="nav-btn">Sign up</a>
-    </Link>
-  )}
-   {isProfilePage ? (
-    <Link to={'/'}>
+          
+          {/* <Link to={'/'}>
+            <a className="nav-btn">Home</a>
+          </Link> */}
+          <a className="nav-btn" onClick={handleLogout} >Log out</a>
+          {!isProfilePage ? (
+    <Link to={'/admin/dashboard'}>
     <a  className="nav-btn">Home</a></Link>
   ) : (
     ""
   )}
-  {user ? (
-    <a onClick={handelLogin} className="nav-btn">Log out</a>
-  ) : (
-    <Link to={'/login'}>
-      <a className="nav-btn">Log in</a>
-    </Link>
-  )}
-</div>
-
+        </div>
       </nav>
     </div>
   </header>
   )
 }
 
-export default Header
+export default AdminHeader

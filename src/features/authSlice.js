@@ -10,7 +10,8 @@ export const registerAuth = createAsyncThunk(
     async (userData,{rejectWithValue})=>{
         try {
             let response = await axios.post('http://localhost:8000/user/register',userData);
-        console.log('responed data is here');
+        console.log('responed data is here', response);
+
         return response.data
         
         } catch (error) {
@@ -29,7 +30,7 @@ export const loginAuth = createAsyncThunk(
     async(userData,{rejectWithValue})=>{
         try {
             let response = await axios.post('http://localhost:8000/user/login',userData)
-            console.log('login responed data is here');
+            console.log('login responed data is here', response.data);
             return response.data
         } catch (error) {
             if(error.response && error.response.data){
@@ -60,7 +61,12 @@ export const updateProfile = createAsyncThunk(
     'auth/updateprofile',
     async (userData,{rejectWithValue})=>{
         try {
-            let response = await axios.post('http://localhost:8000/user/logout',userData)
+            const config = {
+                headers: {
+                  'Content-Type': 'multipart/form-data',
+                },
+              };
+            let response = await axios.post('http://localhost:8000/user/profile',userData,config)
             return response.data
         } catch (error) {
             if(error.response && error.response.data){
@@ -131,9 +137,9 @@ const authSlice = createSlice({
             state.user = action.payload
             state.error = null
         })
-        .addCase(updateProfile.rejected,(state,action)=>{
+        .addCase(updateProfile.rejected,(state,action )=>{
             state.loading = false;
-            state.user = null;
+            state.user = state.user;
             state.error = action.payload ? action.payload.message : "Registration failed"
         })
     }

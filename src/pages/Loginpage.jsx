@@ -91,11 +91,12 @@ function LoginPage() {
                       </div>
                       <div className="mb-6 text-center">
                         <button
+                        onClick={handleLogin} 
                           className="w-full inline-flex items-center justify-center px-6 py-2 backdrop-blur-2xl bg-white/20 text-white rounded-lg transition-all duration-500 group hover:bg-primary/20 hover:text-primary mt-5"
                           type="submit"
                         >
 
-                          <i className="uil uil-navigator me-2 text-lg" /> <span onClick={handleLogin} className="fw-bold">Log In</span>
+                          <i className="uil uil-navigator me-2 text-lg" /> <span  className="fw-bold">Log In</span>
                         </button>
                       </div>
                     </form>
